@@ -32,13 +32,11 @@ class MyAnalogClock(context: Context, val attr: AttributeSet) :
     private val isInit = false
     private var secondArrowColor: Int = Color.RED
     private var minuteArrowColor: Int = Color.BLACK
-    private var hourArrowColor: Int = Color.BLUE
-//    private var secondArrowLength: Int =
-//    private var minuteArrowLength: Int
-//    private var hourArrowLength: Int
+    private var hourArrowColor: Int = Color.GREEN
 
 
-    @SuppressLint("Recycle")
+
+
     private fun init() {
         val ta: TypedArray = context.obtainStyledAttributes(attr,R.styleable.MyAnalogClock)
         clockHeight = height
@@ -56,10 +54,8 @@ class MyAnalogClock(context: Context, val attr: AttributeSet) :
         handSize = radius - radius / 4f
         secondArrowColor = ta.getColor(R.styleable.MyAnalogClock_second_arrow_color, Color.RED)
         minuteArrowColor = ta.getColor(R.styleable.MyAnalogClock_minute_arrow_color, Color.BLACK)
-        hourArrowColor = ta.getColor(R.styleable.MyAnalogClock_hour_arrow_color, Color.BLUE)
-//        secondArrowLength: Int
-//        minuteArrowLength: Int
-//        hourArrowLength: Int
+        hourArrowColor = ta.getColor(R.styleable.MyAnalogClock_hour_arrow_color, Color.GREEN)
+        ta.recycle()
     }
 
     private fun createCircle(canvas: Canvas) {
@@ -68,10 +64,10 @@ class MyAnalogClock(context: Context, val attr: AttributeSet) :
     }
 
 
-    private fun setAttrs(colour: Int, stroke: Paint.Style, strokeWidt: Int) {
+    private fun setAttrs(col: Int, stroke: Paint.Style, strokeWidt: Int) {
         paint?.apply {
             reset()
-            color = colour
+            color = col
             style = stroke
             strokeWidth = strokeWidt.toFloat()
             isAntiAlias = true
@@ -90,7 +86,6 @@ class MyAnalogClock(context: Context, val attr: AttributeSet) :
     }
 
     private fun drawSecondsArrow(canvas: Canvas, second: Int) {
-        paint?.reset()
         setAttrs(secondArrowColor, Paint.Style.STROKE, 8)
         angle = Math.PI * second / 30 - Math.PI / 2
         canvas.drawLine(
