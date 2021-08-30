@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="MyAnalogClock">
+        <attr name="second_arrow_color" format="color"/>
+        <attr name="minute_arrow_color" format="color"/>
+        <attr name="hour_arrow_color" format="color"/>
+        <attr name="hour_arrow_length" format="dimension"/>
+        <attr name="second_arrow_length" format="dimension"/>
+        <attr name="minute_arrow_length" format="dimension"/>
+    </declare-styleable>
+</resources>

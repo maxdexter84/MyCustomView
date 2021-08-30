@@ -1,6 +1,8 @@
 package ru.maxdexter.mycustomview
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.content.res.TypedArray
 import android.graphics.*
 import android.util.AttributeSet
 import java.util.*
@@ -8,7 +10,7 @@ import kotlin.math.cos
 import kotlin.math.min
 import kotlin.math.sin
 
-class MyAnalogClock(context: Context, attr: AttributeSet) :
+class MyAnalogClock(context: Context, val attr: AttributeSet) :
     androidx.appcompat.widget.AppCompatTextView(context, attr) {
 
     private var clockHeight = 300
@@ -28,9 +30,17 @@ class MyAnalogClock(context: Context, attr: AttributeSet) :
     private var handSize = 0f
     private lateinit var rect: Rect
     private val isInit = false
+    private var secondArrowColor: Int = Color.RED
+    private var minuteArrowColor: Int = Color.BLACK
+    private var hourArrowColor: Int = Color.BLUE
+//    private var secondArrowLength: Int =
+//    private var minuteArrowLength: Int
+//    private var hourArrowLength: Int
 
 
+    @SuppressLint("Recycle")
     private fun init() {
+        val ta: TypedArray = context.obtainStyledAttributes(attr,R.styleable.MyAnalogClock)
         clockHeight = height
         clockWidth = width
         padding = 16
@@ -44,6 +54,12 @@ class MyAnalogClock(context: Context, attr: AttributeSet) :
         rect = Rect()
         hourArrowSize = radius - radius / 2f
         handSize = radius - radius / 4f
+        secondArrowColor = ta.getColor(R.styleable.MyAnalogClock_second_arrow_color, Color.RED)
+        minuteArrowColor = ta.getColor(R.styleable.MyAnalogClock_minute_arrow_color, Color.BLACK)
+        hourArrowColor = ta.getColor(R.styleable.MyAnalogClock_hour_arrow_color, Color.BLUE)
+//        secondArrowLength: Int
+//        minuteArrowLength: Int
+//        hourArrowLength: Int
     }
 
     private fun createCircle(canvas: Canvas) {
@@ -75,7 +91,7 @@ class MyAnalogClock(context: Context, attr: AttributeSet) :
 
     private fun drawSecondsArrow(canvas: Canvas, second: Int) {
         paint?.reset()
-        setAttrs(Color.RED, Paint.Style.STROKE, 8)
+        setAttrs(secondArrowColor, Paint.Style.STROKE, 8)
         angle = Math.PI * second / 30 - Math.PI / 2
         canvas.drawLine(
             centreX,
@@ -88,7 +104,7 @@ class MyAnalogClock(context: Context, attr: AttributeSet) :
 
     private fun drawMinuteArrow(canvas: Canvas, minute: Int) {
         paint?.reset()
-        setAttrs(Color.BLACK, Paint.Style.STROKE, 8)
+        setAttrs(minuteArrowColor, Paint.Style.STROKE, 8)
         angle = Math.PI * minute / 30 - Math.PI / 2
         canvas.drawLine(
             centreX,
@@ -101,7 +117,7 @@ class MyAnalogClock(context: Context, attr: AttributeSet) :
 
     private fun drawHourArrow(canvas: Canvas, hour: Double) {
         paint?.reset()
-        setAttrs(Color.BLACK, Paint.Style.STROKE, 10)
+        setAttrs(hourArrowColor, Paint.Style.STROKE, 10)
         angle = Math.PI * hour / 30 - Math.PI / 2
         canvas.drawLine(
             centreX,
@@ -113,8 +129,7 @@ class MyAnalogClock(context: Context, attr: AttributeSet) :
     }
 
     private fun drawNumbers(canvas: Canvas) {
-        paint?.textSize = 100f
-
+        paint?.textSize = 50f
         for (number in 1..12) {
             val num = number.toString()
             paint?.getTextBounds(num, 0, num.length, rect)
